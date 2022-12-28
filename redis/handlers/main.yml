@@ -1,0 +1,8 @@
+---
+# handlers file for redis
+- name: reload systemd configuration
+  become: true
+  command: systemctl daemon-reload
+
+- name: restart redis
+  systemd: name=opensearch state=restarted enabled=yes

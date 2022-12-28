@@ -1,0 +1,23 @@
+---
+- name: install redis
+  apt:
+    name: "{{ pkg }}"
+    state: present
+    update_cache: yes
+      # notify: statrting redis
+  when: ansible_distribution_file_variety == "Debian"
+
+   
+
+- name: install redis
+  yum:
+    name: "{{ pkg }}"
+    state: present
+    update_cache: yes
+      #  notify: statrting redis
+  when: ansible_distribution_file_variety == "RedHat"
+  
+  
+  notify: 
+    - reload systemd configuration
+    - restart opensearch
