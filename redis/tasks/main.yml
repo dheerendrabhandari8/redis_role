@@ -8,7 +8,6 @@
   when: ansible_distribution_file_variety == "Debian"
 
    
-
 - name: install redis
   yum:
     name: "{{ pkg }}"
@@ -17,7 +16,40 @@
       #  notify: statrting redis
   when: ansible_distribution_file_variety == "RedHat"
   
+- name: Ensure Redis is present
+  service: 
+    name: "{{ pkg }}"
+    state: latest
+    sudo: true
+
+- name: Ensure Redis is started
+  service: 
+    name: redis
+    state: started 
+    enabled: yes
+    sudo: true
+
+- name: Ensure Redis Configuration
+  template: 
+    src: redis.conf.j2 
+    dest: /etc/redis/redis.conf 
+    owner: root 
+    group: root 
+    mode: 0644
+    sudo: true
   
+
   notify: 
     - reload systemd configuration
     - restart redis
+
+# Setup/install tasks.
+- include_tasks: RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: Debian.yml
+  when: ansible_os_family == 'Debian'
+
+
+- include_tasks: install.yml
+  when: Ensure Redis is install 

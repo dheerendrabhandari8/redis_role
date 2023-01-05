@@ -1,3 +1,11 @@
 ---
-# vars file for redis
+# vars file for 
 pkg: redis
+os_version: redis-7.0.7
+os_download_url: https://github.com/redis/redis/archive/7.0.7.tar.gz
+os_user: redis
+os_home: /usr/share/redis
+os_conf_dir: /usr/share/redis/config
+xmx_value: 2
+xms_value: 2
+systemctl_path: /etc/systemd/system 
